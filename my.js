@@ -1,59 +1,34 @@
 import { io } from "socket.io-client";
-
-let socket = io("http://localhost:3001");
+// let url="http://localhost:3001"
+let url="https://wovvmapsitapi.wovvtech.com"
+let socket = io(url);
 
 function select(sel) {
     return document.querySelector(sel)
 }
-document.querySelector(".ID").addEventListener("change", (e) => {
-    console.log(e.target.value);
-    socket.on(`endpointrecive${e.target.value}`, (data) => {
-        select(".selectdata").innerHTML = data.name
-        console.log(data, "data is comming ");
-    })
-})
-
-// // Floor Chnage code
-// document.querySelector(".btn1").addEventListener("click", () => {
-//     var ID = document.querySelector(".ID").value
-//     var Floor = select(".floor").value
-//     socket.emit(`floorchange`, { id: ID, number: +Floor });
-// })
-// document.querySelector(".btn2").addEventListener("click", () => {
-//     var ID = document.querySelector(".ID").value
-//     var selectPoint = select(".endpoint").value
-//     socket.emit(`endpointsend`, { id: ID, data: selectPoint });
+// document.querySelector(".ID").addEventListener("change", (e) => {
+//     console.log(e.target.value);
+//     socket.on(`endpointrecive${e.target.value}`, (data) => {
+//         select(".selectdata").innerHTML = data.name
+//         console.log(data, "data is comming ");
+//     })
 // })
 
-// document.querySelector(".findpath").addEventListener("click", () => {
-//     var ID = document.querySelector(".ID").value
-//     var To = document.querySelectorAll("#start")
-//     var From = document.querySelectorAll("#end")
-
-//     // let Gostart = { x: +start[0].value, y: +start[1].value, z: +start[2].value }
-//     // let Goend = { x: +end[0].value, y: +end[1].value, z: +end[2].value }
-//     let pointType = { elevator: elevator === "true" ? true : false, escalator: escalator === "true" ? true : false, stair: stair === "true" ? true : false }
-//     let raw = {
-//         start: { x: +To[0].value, y: +To[1].value, z: +To[2].value },
-//         end: { x: +From[0].value, y: +From[1].value, z: +From[2].value },
-//         stape: pointType,
-//     };
-//     console.log("socket.emit(`findpath`, { raw, id: ID })", { raw, id: ID });
-//     socket.emit(`findpath`, { raw, id: ID });
-//     socket.on(`findpath${ID}`, (data) => {
-//         console.log("data path ", data);
-//     });
-// })
 var selectData;
 document.querySelector(".ID").addEventListener("change", async (e) => {
-    let fecthRawFile = await fetch(`http://localhost:3001/user/${e.target.value}`)
+    let fecthRawFile = await fetch(`${url}/user/${e.target.value}`)
     let data = await fecthRawFile.json()
-    let nodePoint = data.user.filterNodePoint
-    selectData = nodePoint.filter(d => {
-        if (d.shape && d.LocationName?.text.trim().length > 0) {
-            return d
-        }
-    })
+    console.log(data);
+    if(data.error!==true){
+        let nodePoint = data.user.filterNodePoint
+        selectData = nodePoint.filter(d => {
+            if (d.shape && d.LocationName?.text.trim().length > 0) {
+                return d
+            }
+        })
+    }else{
+        alert("ID is expired")
+    }
 })
 document.querySelector(".automatic").addEventListener("click", () => {
     console.log(selectData);
@@ -89,7 +64,7 @@ document.querySelector(".automatic").addEventListener("click", () => {
         console.log(init1, "one");
 
     }
-    var id = setInterval(StartLoop, 100)
+    var id = setInterval(StartLoop, 200)
     socket.on(`findpath${ID}`, (data) => {
         if (data.path.length > 1) {
             // let p = document.createElement("P")
