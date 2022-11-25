@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <center><h1>end to end automatic testing</h1></center>
+    <input placeholder="Id" type="text" class="ID" />
+    <hr />
+    <div class="flex">
+      <div>
+        <p>medium</p>
+        <div class="medium">
+          <p>elevator</p>
+          <select id="elevator">
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+        </div>
+        <div class="medium">
+          <p>escalator</p>
+          <select id="escalator">
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+        </div>
+        <div class="medium">
+          <p>stair</p>
+          <select id="stair">
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <hr />
+    <button class="manual">Manual</button>
+    <button class="automatic">Automatic</button>
+
+    <div class="export">
+      <div class="loader"></div>
+      <button>Export</button>
+    </div>
+
+    <div class="automaticList"></div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "socket.io-client": "./socket.io.esm.min.js"
+        }
+      }
+    </script>
+    <script src="my.js" type="module"></script>
+  </body>
+</html>
