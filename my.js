@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-// let url="http://localhost:3001"
+// let url = "http://localhost:3001"
 let url="https://wovvmapsitapi.wovvtech.com"
 let socket = io(url);
 
@@ -19,14 +19,14 @@ document.querySelector(".ID").addEventListener("change", async (e) => {
     let fecthRawFile = await fetch(`${url}/user/${e.target.value}`)
     let data = await fecthRawFile.json()
     console.log(data);
-    if(data.error!==true){
+    if (data.error !== true) {
         let nodePoint = data.user.filterNodePoint
         selectData = nodePoint.filter(d => {
             if (d.shape && d.LocationName?.text.trim().length > 0) {
                 return d
             }
         })
-    }else{
+    } else {
         alert("ID is expired")
     }
 })
@@ -79,11 +79,12 @@ document.querySelector(".automatic").addEventListener("click", () => {
                 let p = document.createElement("P")
                 let i = document.createElement("i")
                 // p.style.color = "red"
-                p.innerHTML = `${data.start.point.LocationName.text} <b class="b">To</b> ${data.end.point.LocationName.text} is <b class="fail">Fail</b>`
+                p.innerHTML = `${data.start.point.LocationName.text} <b class="b">To</b> ${data.end.point.LocationName.text} is <b class="fail">Fail</b> using 
+                ${elevator === "true" ? "" : "elevator"}, ${escalator === "true" ? "" : "escalator"} ,${stair === "true" ? "" : "stair"}`
                 i.innerHTML = `${x},${y},${z} To ${data.end.x},${data.end.y},${data.end.z} is Fail`
 
                 document.querySelector(".automaticList").appendChild(p)
-                // document.querySelector(".automaticList").appendChild(i)
+                document.querySelector(".automaticList").appendChild(i)
             }
         }
     });
